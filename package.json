@@ -1,0 +1,26 @@
+{
+  "name": "custom-encoder",
+  "version": "1.0.0",
+  "description": "A secure custom encoder/decoder tool with proprietary algorithms",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve -s .",
+    "build": "echo 'No build process needed for static site'",
+    "start": "serve -s ."
+  },
+  "keywords": [
+    "encoder",
+    "decoder",
+    "custom-encoding",
+    "security",
+    "privacy"
+  ],
+  "author": "MR WEIRDOO",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
