@@ -4,29 +4,21 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "."
-      }
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/$1"
     }
   ],
-  "buildCommand": "echo 'Building DarkTrace Network with image: mypic.jpg' && cp index.html vercel.json . 2>/dev/null || true",
+  "buildCommand": "echo 'Building DarkTrace Network with image: mypic.jpg'",
   "outputDirectory": ".",
   "installCommand": "echo 'Installing dependencies for DarkTrace Network - Image: mypic.jpg'",
-  "devCommand": "python -m http.server 3000",
+  "devCommand": "python3 -m http.server 3000",
   "framework": null,
   "env": {
     "IMAGE_FILE": "mypic.jpg"
-  },
-  "files": [
-    "index.html",
-    "mypic.jpg",
-    "vercel.json"
-  ]
+  }
 }
