@@ -3,1069 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkVault | Secure Encoding</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>DarkTrace Network</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #10b981;
-            --accent: #f59e0b;
-            --dark: #0f172a;
-            --darker: #020617;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            font-family: 'Courier New', monospace;
         }
 
         body {
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1e293b 100%);
-            color: var(--light);
-            line-height: 1.6;
-            min-height: 100vh;
+            background-color: #0a0a0a;
+            color: #00ff00;
             overflow-x: hidden;
+            min-height: 100vh;
             position: relative;
         }
 
-        body::before {
-            content: '';
+        /* Matrix background effect */
+        .matrix-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
-            pointer-events: none;
             z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        /* Header Styles */
         header {
             text-align: center;
             margin-bottom: 3rem;
-            padding: 2rem;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
-        header:hover::before {
-            left: 100%;
+            padding: 1rem;
+            border-bottom: 1px solid #00ff00;
+            position: relative;
         }
 
         .logo {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 50%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--gray);
-            font-weight: 300;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Card Styles */
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
-        }
-
-        .card:hover::before {
-            width: 6px;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Input/Output Sections */
-        .input-group {
-            display: flex;
             flex-direction: column;
-            gap: 1rem;
+            align-items: center;
             margin-bottom: 2rem;
         }
 
-        label {
-            font-weight: 600;
-            color: var(--light);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .logo-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid #00ff00;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .logo p {
+            color: #00cc00;
             font-size: 1.1rem;
         }
 
-        .label-icon {
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 180px;
-            transition: all 0.3s ease;
-            background: rgba(15, 23, 42, 0.6);
-            color: var(--light);
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        /* File Upload */
-        .file-upload {
+        .social-links {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .file-input-container {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .file-input-label {
-            display: flex;
-            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px dashed var(--glass-border);
-            border-radius: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
         }
 
-        .file-input-label:hover {
-            background: rgba(30, 41, 59, 0.6);
-            border-color: var(--primary);
-        }
-
-        .file-name {
-            font-size: 0.9rem;
-            color: var(--gray);
+        .social-link {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        /* Options Row */
-        .options-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .options-row {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-        }
-
-        select, button, input {
-            padding: 1rem 1.5rem;
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            color: #00ff00;
+            text-decoration: none;
             transition: all 0.3s ease;
-            background: rgba(15, 23, 42, 0.6);
-            color: var(--light);
+            font-weight: bold;
         }
 
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.5rem;
+        .social-link:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-3px);
         }
 
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        .social-link i {
+            font-size: 1.2rem;
         }
 
-        /* Buttons */
-        button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            position: relative;
-            overflow: hidden;
+        .content {
+            text-align: center;
+            max-width: 800px;
+            margin: 2rem 0;
+            padding: 2rem;
+            background-color: rgba(0, 20, 0, 0.3);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
         }
 
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .content h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .content p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #aaffaa;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            text-align: center;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+            border-top: 1px solid #00ff00;
+            color: #00aa00;
+            font-size: 0.9rem;
         }
 
-        button:hover::before {
-            left: 100%;
+        /* Terminal effect */
+        .terminal {
+            background-color: rgba(0, 10, 0, 0.8);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .copy-btn {
-            background: linear-gradient(135deg, var(--secondary), #059669);
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-
-        .clear-btn {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        /* Result Section */
-        .result-container {
-            position: relative;
-        }
-
-        .result-header {
+        .terminal-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
 
-        .char-count {
-            font-size: 0.9rem;
-            color: var(--gray);
-            background: rgba(15, 23, 42, 0.6);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .result {
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            min-height: 180px;
-            word-break: break-all;
-            white-space: pre-wrap;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            max-height: 400px;
-            overflow-y: auto;
-            line-height: 1.8;
-        }
-
-        /* Custom Key Section */
-        .custom-key {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
-            align-items: end;
-        }
-
-        .key-input {
-            flex: 1;
-        }
-
-        .generate-key {
-            background: linear-gradient(135deg, var(--accent), #d97706);
-            white-space: nowrap;
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--secondary), #059669);
-            color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            z-index: 1000;
+        .terminal-buttons {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .notification.error {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .security-badge {
-            display: inline-flex;
-            align-items: center;
             gap: 0.5rem;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--secondary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            margin-top: 1rem;
+            margin-right: 1rem;
         }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
 
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        .terminal-button.close {
+            background-color: #ff5f56;
         }
 
-        /* Responsive */
+        .terminal-button.minimize {
+            background-color: #ffbd2e;
+        }
+
+        .terminal-button.maximize {
+            background-color: #27c93f;
+        }
+
+        .terminal-title {
+            color: #00ff00;
+            font-size: 0.9rem;
+        }
+
+        .terminal-content {
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+        }
+
+        .terminal-command {
+            color: #ffffff;
+        }
+
+        .terminal-output {
+            color: #aaffaa;
+        }
+
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(31px, 9999px, 94px, 0);
+            }
+            5% {
+                clip: rect(73px, 9999px, 25px, 0);
+            }
+            10% {
+                clip: rect(3px, 9999px, 40px, 0);
+            }
+            15% {
+                clip: rect(73px, 9999px, 7px, 0);
+            }
+            20% {
+                clip: rect(53px, 9999px, 33px, 0);
+            }
+            25% {
+                clip: rect(10px, 9999px, 30px, 0);
+            }
+            30% {
+                clip: rect(44px, 9999px, 56px, 0);
+            }
+            35% {
+                clip: rect(20px, 9999px, 63px, 0);
+            }
+            40% {
+                clip: rect(86px, 9999px, 55px, 0);
+            }
+            45% {
+                clip: rect(11px, 9999px, 89px, 0);
+            }
+            50% {
+                clip: rect(75px, 9999px, 65px, 0);
+            }
+            55% {
+                clip: rect(88px, 9999px, 42px, 0);
+            }
+            60% {
+                clip: rect(95px, 9999px, 82px, 0);
+            }
+            65% {
+                clip: rect(4px, 9999px, 2px, 0);
+            }
+            70% {
+                clip: rect(56px, 9999px, 29px, 0);
+            }
+            75% {
+                clip: rect(21px, 9999px, 53px, 0);
+            }
+            80% {
+                clip: rect(43px, 9999px, 60px, 0);
+            }
+            85% {
+                clip: rect(38px, 9999px, 72px, 0);
+            }
+            90% {
+                clip: rect(84px, 9999px, 24px, 0);
+            }
+            95% {
+                clip: rect(91px, 9999px, 43px, 0);
+            }
+            100% {
+                clip: rect(47px, 9999px, 8px, 0);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+            }
+            5% {
+                clip: rect(52px, 9999px, 74px, 0);
+            }
+            10% {
+                clip: rect(79px, 9999px, 85px, 0);
+            }
+            15% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+            20% {
+                clip: rect(67px, 9999px, 61px, 0);
+            }
+            25% {
+                clip: rect(14px, 9999px, 79px, 0);
+            }
+            30% {
+                clip: rect(1px, 9999px, 66px, 0);
+            }
+            35% {
+                clip: rect(86px, 9999px, 30px, 0);
+            }
+            40% {
+                clip: rect(23px, 9999px, 98px, 0);
+            }
+            45% {
+                clip: rect(85px, 9999px, 72px, 0);
+            }
+            50% {
+                clip: rect(71px, 9999px, 75px, 0);
+            }
+            55% {
+                clip: rect(2px, 9999px, 48px, 0);
+            }
+            60% {
+                clip: rect(30px, 9999px, 16px, 0);
+            }
+            65% {
+                clip: rect(59px, 9999px, 50px, 0);
+            }
+            70% {
+                clip: rect(41px, 9999px, 62px, 0);
+            }
+            75% {
+                clip: rect(2px, 9999px, 82px, 0);
+            }
+            80% {
+                clip: rect(47px, 9999px, 73px, 0);
+            }
+            85% {
+                clip: rect(3px, 9999px, 27px, 0);
+            }
+            90% {
+                clip: rect(33px, 9999px, 44px, 0);
+            }
+            95% {
+                clip: rect(57px, 9999px, 30px, 0);
+            }
+            100% {
+                clip: rect(36px, 9999px, 57px, 0);
+            }
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
-
-            h1 {
-                font-size: 2.5rem;
+            
+            .logo h1 {
+                font-size: 2rem;
             }
-
-            .card {
-                padding: 1.5rem;
+            
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
             }
-
-            .options-row {
-                grid-template-columns: 1fr;
-            }
-
-            .custom-key {
-                grid-template-columns: 1fr;
+            
+            .social-link {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Matrix background effect -->
+    <canvas class="matrix-bg" id="matrix"></canvas>
+    
     <div class="container">
-        <header class="floating">
+        <header>
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-lock"></i>
+                <div class="logo-img">
+                    <!-- Replace with your actual image path -->
+                    <img src="mypic.jpg" alt="DarkTrace Network">
                 </div>
-                <h1>CipherVault</h1>
+                <h1 class="glitch" data-text="DarkTrace Network">DarkTrace Network</h1>
+                <p>Securing the digital frontier</p>
             </div>
-            <p class="subtitle">Advanced proprietary encoding algorithms for secure communication</p>
+            
+            <div class="social-links">
+                <a href="https://instagram.com/tg_cheats" class="social-link" target="_blank">
+                    <i>📷</i> Instagram
+                </a>
+                <a href="https://t.me/DarkTrace_Networkz" class="social-link" target="_blank">
+                    <i>📢</i> Telegram Channel
+                </a>
+            </div>
         </header>
         
-        <main>
-            <div class="card input-section">
-                <div class="input-group">
-                    <label>
-                        <i class="fas fa-keyboard label-icon"></i>
-                        Input Text
-                    </label>
-                    <textarea id="input-text" placeholder="Enter your secret message here..."></textarea>
+        <div class="content">
+            <h2>Welcome to the Network</h2>
+            <p>DarkTrace Network is at the forefront of digital security and information exchange. We operate in the shadows to protect the digital frontier.</p>
+            <p>Our community shares knowledge, tools, and insights to navigate the complex landscape of cybersecurity.</p>
+            <p>Join us to stay updated with the latest developments in the world of digital security.</p>
+        </div>
+        
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
                 </div>
-                
-                <div class="file-upload">
-                    <label>
-                        <i class="fas fa-cloud-upload-alt label-icon"></i>
-                        Or Upload File
-                    </label>
-                    <div class="file-input-container">
-                        <input type="file" id="file-input" class="file-input">
-                        <div class="file-input-label">
-                            <i class="fas fa-file-import"></i>
-                            <span>Choose file or drag & drop</span>
-                        </div>
-                    </div>
-                    <div class="file-name" id="file-name">
-                        <i class="fas fa-file"></i>
-                        <span>No file selected</span>
-                    </div>
-                </div>
-                
-                <div class="options-row">
-                    <div class="input-group">
-                        <label>
-                            <i class="fas fa-code label-icon"></i>
-                            Algorithm
-                        </label>
-                        <select id="encoding-type">
-                            <option value="quantum">Quantum Cipher</option>
-                            <option value="nexus">Nexus Protocol</option>
-                            <option value="phantom">Phantom Encode</option>
-                            <option value="crypto">Crypto Matrix</option>
-                            <option value="shadow">Shadow Veil</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>
-                            <i class="fas fa-cogs label-icon"></i>
-                            Operation
-                        </label>
-                        <select id="action-type">
-                            <option value="encode">Encrypt</option>
-                            <option value="decode">Decrypt</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>
-                        <i class="fas fa-key label-icon"></i>
-                        Encryption Key
-                    </label>
-                    <div class="custom-key">
-                        <input type="text" id="custom-key" class="key-input" placeholder="Enter custom key for enhanced security...">
-                        <button class="generate-key" id="generate-key">
-                            <i class="fas fa-dice"></i>
-                            <span>Generate</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <button id="process-btn">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Process Securely</span>
-                </button>
+                <div class="terminal-title">darktrace@network:~</div>
             </div>
-            
-            <div class="card output-section">
-                <div class="result-header">
-                    <h2>
-                        <i class="fas fa-lock-open label-icon"></i>
-                        Result
-                    </h2>
-                    <div class="char-count" id="char-count">0 characters</div>
+            <div class="terminal-content">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">darktrace@network:~$ </span>
+                    <span class="terminal-command">whoami</span>
                 </div>
-                
-                <div class="result" id="result-output">
-                    Your encrypted or decrypted result will appear here...
+                <div class="terminal-line terminal-output">darktrace_operator</div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">darktrace@network:~$ </span>
+                    <span class="terminal-command">status --network</span>
                 </div>
-                
-                <div class="action-buttons">
-                    <button class="copy-btn" id="copy-result">
-                        <i class="far fa-copy"></i>
-                        <span>Copy</span>
-                    </button>
-                    <button class="download-btn" id="download-result">
-                        <i class="fas fa-download"></i>
-                        <span>Download</span>
-                    </button>
-                    <button class="clear-btn" id="clear-all">
-                        <i class="fas fa-eraser"></i>
-                        <span>Clear All</span>
-                    </button>
+                <div class="terminal-line terminal-output">System operational. All nodes secure.</div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">darktrace@network:~$ </span>
+                    <span class="terminal-command">connect --social</span>
+                </div>
+                <div class="terminal-line terminal-output">Redirecting to social channels...</div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">darktrace@network:~$ </span>
+                    <span class="terminal-command blinking-cursor">_</span>
                 </div>
             </div>
-            
-            <div class="card">
-                <div class="security-badge">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>All processing happens locally in your browser - No data is sent to servers</span>
-                </div>
-            </div>
-        </main>
+        </div>
         
         <footer>
-            <p>CipherVault &copy; 2024 | Enterprise-Grade Encryption Technology</p>
-            <div class="security-badge">
-                <i class="fas fa-user-shield"></i>
-                <span>Military-Grade Security</span>
-            </div>
+            <p>DarkTrace Network &copy; 2023 | Secure. Private. Anonymous.</p>
         </footer>
     </div>
-    
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span>Operation completed successfully!</span>
-    </div>
-    
+
     <script>
-        // DOM Elements
-        const inputText = document.getElementById('input-text');
-        const fileInput = document.getElementById('file-input');
-        const fileName = document.getElementById('file-name');
-        const encodingType = document.getElementById('encoding-type');
-        const actionType = document.getElementById('action-type');
-        const customKey = document.getElementById('custom-key');
-        const generateKeyBtn = document.getElementById('generate-key');
-        const processBtn = document.getElementById('process-btn');
-        const resultOutput = document.getElementById('result-output');
-        const charCount = document.getElementById('char-count');
-        const copyBtn = document.getElementById('copy-result');
-        const downloadBtn = document.getElementById('download-result');
-        const clearBtn = document.getElementById('clear-all');
-        const notification = document.getElementById('notification');
-
-        // Current state
-        let currentResult = '';
-        let currentFileName = '';
-
-        // Generate random key
-        generateKeyBtn.addEventListener('click', () => {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-            let key = '';
-            for (let i = 0; i < 24; i++) {
-                key += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            customKey.value = key;
-            showNotification('Secure key generated');
-        });
-
-        // File input handling
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                fileName.innerHTML = `<i class="fas fa-file"></i><span>${file.name} (${formatFileSize(file.size)})</span>`;
-                currentFileName = file.name;
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    inputText.value = e.target.result;
-                    updateCharCount();
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        // Update character count
-        inputText.addEventListener('input', updateCharCount);
-
-        function updateCharCount() {
-            const count = inputText.value.length;
-            charCount.textContent = `${count} characters`;
+        // Matrix background effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // Characters for the matrix effect
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&*";
+        const charArray = chars.split('');
+        
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        // Create an array of drops
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
         }
-
-        // Process button click
-        processBtn.addEventListener('click', processData);
-
-        // Copy result
-        copyBtn.addEventListener('click', () => {
-            if (!currentResult) {
-                showNotification('No result to copy', true);
-                return;
-            }
+        
+        // Draw the matrix effect
+        function drawMatrix() {
+            // Semi-transparent black background for trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            navigator.clipboard.writeText(currentResult)
-                .then(() => {
-                    showNotification('Copied to clipboard');
-                })
-                .catch(err => {
-                    showNotification('Failed to copy', true);
-                });
-        });
-
-        // Download result
-        downloadBtn.addEventListener('click', () => {
-            if (!currentResult) {
-                showNotification('No result to download', true);
-                return;
-            }
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
             
-            let filename = 'encrypted_message.txt';
-            if (currentFileName) {
-                const extIndex = currentFileName.lastIndexOf('.');
-                if (extIndex !== -1) {
-                    filename = currentFileName.substring(0, extIndex) + '_' + 
-                              (actionType.value === 'encode' ? 'encrypted' : 'decrypted') + '.txt';
-                }
-            }
-            
-            downloadFile(currentResult, filename);
-            showNotification('File downloaded');
-        });
-
-        // Clear all
-        clearBtn.addEventListener('click', () => {
-            inputText.value = '';
-            resultOutput.textContent = 'Your encrypted or decrypted result will appear here...';
-            fileInput.value = '';
-            fileName.innerHTML = '<i class="fas fa-file"></i><span>No file selected</span>';
-            customKey.value = '';
-            currentResult = '';
-            currentFileName = '';
-            updateCharCount();
-            showNotification('All fields cleared');
-        });
-
-        // Process data
-        function processData() {
-            const input = inputText.value.trim();
-            if (!input) {
-                showNotification('Please enter text or select a file', true);
-                return;
-            }
-            
-            const type = encodingType.value;
-            const action = actionType.value;
-            const key = customKey.value.trim();
-            
-            try {
-                if (action === 'encode') {
-                    currentResult = encodeData(input, type, key);
-                } else {
-                    currentResult = decodeData(input, type, key);
+            for (let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
                 }
                 
-                resultOutput.textContent = currentResult;
-                showNotification(`${action === 'encode' ? 'Encrypted' : 'Decrypted'} successfully`);
-            } catch (error) {
-                showNotification(`Error: ${error.message}`, true);
+                drops[i]++;
             }
         }
-
-        // Custom encoding algorithms
-        function encodeData(data, type, key) {
-            switch (type) {
-                case 'quantum':
-                    return quantumEncode(data, key);
-                case 'nexus':
-                    return nexusEncode(data, key);
-                case 'phantom':
-                    return phantomEncode(data, key);
-                case 'crypto':
-                    return cryptoEncode(data, key);
-                case 'shadow':
-                    return shadowEncode(data, key);
-                default:
-                    throw new Error('Unsupported algorithm');
-            }
-        }
-
-        function decodeData(data, type, key) {
-            switch (type) {
-                case 'quantum':
-                    return quantumDecode(data, key);
-                case 'nexus':
-                    return nexusDecode(data, key);
-                case 'phantom':
-                    return phantomDecode(data, key);
-                case 'crypto':
-                    return cryptoDecode(data, key);
-                case 'shadow':
-                    return shadowDecode(data, key);
-                default:
-                    throw new Error('Unsupported algorithm');
-            }
-        }
-
-        // Quantum Cipher Algorithm
-        function quantumEncode(data, key) {
-            let result = '';
-            const keyNum = key ? stringToNumber(key) : 137;
-            
-            for (let i = 0; i < data.length; i++) {
-                const charCode = data.charCodeAt(i);
-                const keyPart = (keyNum * (i + 1)) % 256;
-                const encoded = (charCode ^ keyPart) + i;
-                result += String.fromCharCode(encoded % 65536);
-            }
-            
-            return '⚛️' + btoa(result) + '⚛️';
-        }
-
-        function quantumDecode(data, key) {
-            if (data.startsWith('⚛️') && data.endsWith('⚛️')) {
-                data = data.substring(2, data.length - 2);
-            }
-            
-            data = atob(data);
-            let result = '';
-            const keyNum = key ? stringToNumber(key) : 137;
-            
-            for (let i = 0; i < data.length; i++) {
-                const charCode = data.charCodeAt(i);
-                const keyPart = (keyNum * (i + 1)) % 256;
-                const decoded = (charCode - i) ^ keyPart;
-                result += String.fromCharCode(decoded);
-            }
-            
-            return result;
-        }
-
-        // Nexus Protocol Algorithm
-        function nexusEncode(data, key) {
-            const matrix = createMatrix(data);
-            let result = '';
-            
-            for (let i = 0; i < matrix.length; i++) {
-                for (let j = 0; j < matrix[i].length; j++) {
-                    const char = matrix[i][j];
-                    const code = char.charCodeAt(0);
-                    const transformed = (code * (i + 1) + (j + 1)) % 65536;
-                    result += String.fromCharCode(transformed);
-                }
-                if (i < matrix.length - 1) result += '▢';
-            }
-            
-            return '🔷' + result + '🔷';
-        }
-
-        function nexusDecode(data, key) {
-            if (data.startsWith('🔷') && data.endsWith('🔷')) {
-                data = data.substring(2, data.length - 2);
-            }
-            
-            const rows = data.split('▢');
-            let result = '';
-            
-            for (let i = 0; i < rows.length; i++) {
-                for (let j = 0; j < rows[i].length; j++) {
-                    const code = rows[i].charCodeAt(j);
-                    const original = ((code - (j + 1)) / (i + 1)) % 65536;
-                    result += String.fromCharCode(Math.round(original));
-                }
-            }
-            
-            return result;
-        }
-
-        // Phantom Encode Algorithm
-        function phantomEncode(data, key) {
-            let result = '';
-            const keyValue = key ? stringToNumber(key) : 42;
-            
-            for (let i = 0; i < data.length; i++) {
-                const char = data[i];
-                const code = char.charCodeAt(0);
-                const phantomCode = (code + keyValue + i * 7) % 65536;
-                result += String.fromCharCode(phantomCode);
-                
-                if (i % 3 === 2) {
-                    result += String.fromCharCode(0x2000 + (i % 16));
-                }
-            }
-            
-            return '👻' + result + '👻';
-        }
-
-        function phantomDecode(data, key) {
-            if (data.startsWith('👻') && data.endsWith('👻')) {
-                data = data.substring(2, data.length - 2);
-            }
-            
-            data = data.replace(/[\u2000-\u200F]/g, '');
-            let result = '';
-            const keyValue = key ? stringToNumber(key) : 42;
-            
-            for (let i = 0; i < data.length; i++) {
-                const code = data.charCodeAt(i);
-                const original = (code - keyValue - i * 7) % 65536;
-                result += String.fromCharCode(original);
-            }
-            
-            return result;
-        }
-
-        // Crypto Matrix Algorithm
-        function cryptoEncode(data, key) {
-            const shuffled = shuffleString(data, key);
-            let result = '';
-            
-            for (let i = 0; i < shuffled.length; i++) {
-                const code = shuffled.charCodeAt(i);
-                const encrypted = (code << 2) | (code >> 6);
-                result += String.fromCharCode(encrypted % 65536);
-            }
-            
-            return '🔐' + result + '🔐';
-        }
-
-        function cryptoDecode(data, key) {
-            if (data.startsWith('🔐') && data.endsWith('🔐')) {
-                data = data.substring(2, data.length - 2);
-            }
-            
-            let decoded = '';
-            for (let i = 0; i < data.length; i++) {
-                const code = data.charCodeAt(i);
-                const decrypted = (code >> 2) | (code << 6);
-                decoded += String.fromCharCode(decrypted % 65536);
-            }
-            
-            return unshuffleString(decoded, key);
-        }
-
-        // Shadow Veil Algorithm
-        function shadowEncode(data, key) {
-            let result = '';
-            const keyValue = key ? stringToNumber(key) : 777;
-            
-            for (let i = 0; i < data.length; i++) {
-                const code = data.charCodeAt(i);
-                const shadow1 = (code & 0xF0) >> 4;
-                const shadow2 = code & 0x0F;
-                
-                result += String.fromCharCode(0x2580 + shadow1);
-                result += String.fromCharCode(0x2580 + shadow2 + 16);
-            }
-            
-            return '🌑' + result + '🌑';
-        }
-
-        function shadowDecode(data, key) {
-            if (data.startsWith('🌑') && data.endsWith('🌑')) {
-                data = data.substring(2, data.length - 2);
-            }
-            
-            let result = '';
-            for (let i = 0; i < data.length; i += 2) {
-                if (i + 1 < data.length) {
-                    const high = data[i].charCodeAt(0) - 0x2580;
-                    const low = data[i + 1].charCodeAt(0) - 0x2590;
-                    const code = (high << 4) | low;
-                    result += String.fromCharCode(code);
-                }
-            }
-            
-            return result;
-        }
-
-        // Utility functions
-        function createMatrix(data) {
-            const size = Math.ceil(Math.sqrt(data.length));
-            const matrix = [];
-            let index = 0;
-            
-            for (let i = 0; i < size; i++) {
-                matrix[i] = [];
-                for (let j = 0; j < size; j++) {
-                    matrix[i][j] = index < data.length ? data[index++] : ' ';
-                }
-            }
-            
-            return matrix;
-        }
-
-        function shuffleString(str, key) {
-            const arr = str.split('');
-            const seed = key ? stringToNumber(key) : 123;
-            const rng = seededRandom(seed);
-            
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(rng() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            
-            return arr.join('');
-        }
-
-        function unshuffleString(str, key) {
-            const arr = str.split('');
-            const seed = key ? stringToNumber(key) : 123;
-            const rng = seededRandom(seed);
-            const indices = Array.from({length: arr.length}, (_, i) => i);
-            
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(rng() * (i + 1));
-                [indices[i], indices[j]] = [indices[j], indices[i]];
-            }
-            
-            const result = new Array(arr.length);
-            for (let i = 0; i < arr.length; i++) {
-                result[indices[i]] = arr[i];
-            }
-            
-            return result.join('');
-        }
-
-        function stringToNumber(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            return Math.abs(hash);
-        }
-
-        function seededRandom(seed) {
-            return function() {
-                seed = (seed * 9301 + 49297) % 233280;
-                return seed / 233280;
-            };
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function downloadFile(content, filename) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function showNotification(message, isError = false) {
-            notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i><span>${message}</span>`;
-            notification.className = 'notification';
-            
-            if (isError) {
-                notification.classList.add('error');
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Initialize
-        updateCharCount();
+        
+        // Update canvas size on window resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Animation loop
+        setInterval(drawMatrix, 35);
+        
+        // Blinking cursor effect
+        const cursor = document.querySelector('.terminal-command');
+        let cursorVisible = true;
+        
+        setInterval(() => {
+            cursorVisible = !cursorVisible;
+            cursor.textContent = cursorVisible ? '_' : ' ';
+        }, 500);
     </script>
 </body>
 </html>
