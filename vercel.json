@@ -3,11 +3,27 @@
   "name": "darktrace-network",
   "builds": [
     {
+      "src": "api/bomber.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "index.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/api",
+      "dest": "/api/bomber.js"
+    },
+    {
+      "src": "/bomb",
+      "dest": "/api/bomber.js"
+    },
+    {
+      "src": "/otp",
+      "dest": "/api/bomber.js"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
