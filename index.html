@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkTrace Network - Cybersecurity Solutions</title>
+    <title>DarkTrace Network</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -16,129 +16,44 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --dark: #1e293b;
+            --instagram: #E1306C;
+            --telegram: #0088cc;
+            --dark: #0f172a;
             --light: #f8fafc;
-            --accent: #06d6a0;
         }
 
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: var(--light);
-            line-height: 1.6;
-            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header */
-        header {
-            padding: 2rem 0;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
+            max-width: 800px;
             width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--primary);
-        }
-
-        .logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--light);
-        }
-
-        .logo-text span {
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 0 4rem;
-            position: relative;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            color: var(--secondary);
-            margin-bottom: 2rem;
-        }
-
-        .hero-image {
-            position: relative;
+            text-align: center;
         }
 
         .profile-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
+            padding: 3rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .profile-card:hover {
-            transform: translateY(-10px);
+            margin-bottom: 2rem;
         }
 
         .profile-img {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 2rem;
             overflow: hidden;
             border: 4px solid var(--primary);
             box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
@@ -151,321 +66,184 @@
         }
 
         .profile-name {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .profile-title {
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
         .social-link {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .social-link:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 0;
-            background: rgba(15, 23, 42, 0.5);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--light);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
             padding: 2rem;
             border-radius: 15px;
-            text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
+        .social-link.instagram {
+            background: linear-gradient(135deg, rgba(225, 48, 108, 0.1) 0%, rgba(253, 29, 29, 0.1) 100%);
+            border: 1px solid rgba(225, 48, 108, 0.3);
         }
 
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 1.8rem;
+        .social-link.telegram {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.1) 0%, rgba(0, 102, 204, 0.1) 100%);
+            border: 1px solid rgba(0, 136, 204, 0.3);
         }
 
-        .feature-card h3 {
-            font-size: 1.3rem;
+        .social-link:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-link.instagram:hover {
+            background: linear-gradient(135deg, rgba(225, 48, 108, 0.2) 0%, rgba(253, 29, 29, 0.2) 100%);
+            box-shadow: 0 15px 30px rgba(225, 48, 108, 0.3);
+        }
+
+        .social-link.telegram:hover {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.2) 0%, rgba(0, 102, 204, 0.2) 100%);
+            box-shadow: 0 15px 30px rgba(0, 136, 204, 0.3);
+        }
+
+        .social-icon {
+            font-size: 3.5rem;
             margin-bottom: 1rem;
-            color: var(--light);
         }
 
-        .feature-card p {
-            color: var(--secondary);
+        .social-link.instagram .social-icon {
+            color: var(--instagram);
         }
 
-        /* CTA Section */
-        .cta {
-            padding: 6rem 0;
-            text-align: center;
+        .social-link.telegram .social-icon {
+            color: var(--telegram);
         }
 
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            color: var(--secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 3rem 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .footer-logo {
+        .social-name {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 2rem;
+        .social-handle {
+            color: #94a3b8;
+            font-size: 1rem;
         }
 
-        .footer-link {
-            color: var(--secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--primary);
-        }
-
-        .copyright {
-            color: var(--secondary);
+        .footer {
+            margin-top: 2rem;
+            color: #64748b;
             font-size: 0.9rem;
         }
 
-        /* Responsive Design */
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-card, .social-link {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .social-link.telegram {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .social-link.instagram {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 3rem;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .navbar {
+            .social-links {
                 flex-direction: column;
-                gap: 1rem;
+                align-items: center;
             }
-
-            .features-grid {
-                grid-template-columns: 1fr;
+            
+            .social-link {
+                width: 100%;
+                max-width: 300px;
             }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
+            
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .profile-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+            
+            .profile-card {
+                padding: 2rem 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <div class="logo-img">
-                        <img src="https://github.com/panwarayus-stack/Encode/blob/main/mypic.jpg?raw=true" alt="DarkTrace Network">
-                    </div>
-                    <div class="logo-text">Dark<span>Trace</span></div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Advanced Cybersecurity for the Modern Digital World</h1>
-                    <p>DarkTrace Network provides cutting-edge security solutions to protect your digital assets from emerging threats. Our expertise spans network security, threat intelligence, and proactive defense strategies.</p>
-                    <a href="https://t.me/DarkTrace_Networkz" class="btn" target="_blank">
-                        <i class="fab fa-telegram"></i> Join Our Channel
-                    </a>
-                </div>
-                <div class="hero-image">
-                    <div class="profile-card">
-                        <div class="profile-img">
-                            <img src="https://github.com/panwarayus-stack/Encode/blob/main/mypic.jpg?raw=true" alt="DarkTrace Network">
-                        </div>
-                        <h2 class="profile-name">DarkTrace Network</h2>
-                        <p class="profile-title">Cybersecurity Experts</p>
-                        <div class="social-links">
-                            <a href="https://instagram.com/tg_cheats" class="social-link" target="_blank">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="https://t.me/DarkTrace_Networkz" class="social-link" target="_blank">
-                                <i class="fab fa-telegram"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-img">
+                <img src="https://github.com/panwarayus-stack/Encode/blob/main/mypic.jpg?raw=true" alt="DarkTrace Network">
+            </div>
+            <h1 class="profile-name">DarkTrace Network</h1>
+            <p class="profile-title">Cybersecurity & Technology Solutions</p>
+            
+            <div class="social-links">
+                <a href="https://instagram.com/tg_cheats" class="social-link instagram" target="_blank">
+                    <i class="fab fa-instagram social-icon"></i>
+                    <div class="social-name">Instagram</div>
+                    <div class="social-handle">@tg_cheats</div>
+                </a>
+                
+                <a href="https://t.me/DarkTrace_Networkz" class="social-link telegram" target="_blank">
+                    <i class="fab fa-telegram social-icon"></i>
+                    <div class="social-name">Telegram</div>
+                    <div class="social-handle">DarkTrace Network</div>
+                </a>
             </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Our Expertise</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Network Protection</h3>
-                    <p>Advanced security measures to safeguard your network infrastructure from unauthorized access and cyber threats.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bug"></i>
-                    </div>
-                    <h3>Threat Detection</h3>
-                    <p>Proactive monitoring and detection systems to identify potential security breaches before they cause damage.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Secure Development</h3>
-                    <p>Implementation of security best practices throughout the software development lifecycle.</p>
-                </div>
-            </div>
+        
+        <div class="footer">
+            &copy; 2024 DarkTrace Network. Connect with us on social media.
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2>Join Our Cybersecurity Community</h2>
-            <p>Stay updated with the latest security trends, threats, and solutions. Connect with experts and enthusiasts in our Telegram channel.</p>
-            <a href="https://t.me/DarkTrace_Networkz" class="btn" target="_blank">
-                <i class="fab fa-telegram"></i> Connect on Telegram
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">DarkTrace Network</div>
-                <div class="footer-links">
-                    <a href="https://instagram.com/tg_cheats" class="footer-link" target="_blank">Instagram</a>
-                    <a href="https://t.me/DarkTrace_Networkz" class="footer-link" target="_blank">Telegram</a>
-                </div>
-                <div class="copyright">
-                    &copy; 2024 DarkTrace Network. All rights reserved.
-                </div>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Simple scroll effect for header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(15, 23, 42, 0.95)';
-            } else {
-                header.style.background = 'rgba(15, 23, 42, 0.8)';
-            }
+        // Simple animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = 0;
+            document.body.style.transition = 'opacity 1s ease';
+            
+            setTimeout(function() {
+                document.body.style.opacity = 1;
+            }, 100);
         });
     </script>
 </body>
