@@ -3,8 +3,11 @@
   "name": "darktrace-network",
   "builds": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "."
+      }
     }
   ],
   "routes": [
@@ -13,40 +16,17 @@
       "dest": "/index.html"
     }
   ],
-  "functions": {},
-  "env": {},
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
+  "buildCommand": "echo 'Building DarkTrace Network with image: mypic.jpg' && cp index.html vercel.json . 2>/dev/null || true",
+  "outputDirectory": ".",
+  "installCommand": "echo 'Installing dependencies for DarkTrace Network - Image: mypic.jpg'",
+  "devCommand": "python -m http.server 3000",
+  "framework": null,
+  "env": {
+    "IMAGE_FILE": "mypic.jpg"
   },
-  "github": {
-    "enabled": false
-  },
-  "public": true,
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
+  "files": [
+    "index.html",
+    "mypic.jpg",
+    "vercel.json"
   ]
 }
