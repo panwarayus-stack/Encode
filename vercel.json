@@ -3,22 +3,14 @@
   "name": "darktrace-network",
   "builds": [
     {
-      "src": "package.json",
+      "src": "index.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
-  ],
-  "buildCommand": "echo 'Building DarkTrace Network with image: mypic.jpg'",
-  "outputDirectory": ".",
-  "installCommand": "echo 'Installing dependencies for DarkTrace Network - Image: mypic.jpg'",
-  "devCommand": "python3 -m http.server 3000",
-  "framework": null,
-  "env": {
-    "IMAGE_FILE": "mypic.jpg"
-  }
+  ]
 }
