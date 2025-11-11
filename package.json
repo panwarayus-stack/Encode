@@ -1,25 +1,23 @@
 {
-  "name": "custom-encoder",
+  "name": "bomber-api",
   "version": "1.0.0",
-  "description": "A secure custom encoder/decoder tool with proprietary algorithms",
-  "main": "index.html",
+  "description": "Bomber API clone for educational purposes",
+  "main": "api/bomb.js",
   "scripts": {
-    "dev": "serve -s .",
-    "build": "echo 'No build process needed for static site'",
-    "start": "serve -s ."
+    "dev": "vercel dev",
+    "build": "echo 'No build process needed for serverless functions'",
+    "start": "vercel dev"
   },
   "keywords": [
-    "encoder",
-    "decoder",
-    "custom-encoding",
-    "security",
-    "privacy"
+    "bomber-api",
+    "api-clone",
+    "educational",
+    "vercel",
+    "serverless"
   ],
   "author": "MR WEIRDOO",
   "license": "MIT",
-  "devDependencies": {
-    "serve": "^14.2.1"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=18.x"
   }
