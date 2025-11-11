@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // Load keys from keys.json
-const keys = require('../keys.json');
+const keys = require('/keys.json');
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -111,3 +111,4 @@ module.exports = async (req, res) => {
     });
   }
 };
+
