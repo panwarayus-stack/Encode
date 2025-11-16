@@ -63,6 +63,6 @@
   ],
   "env": {
     "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ",
-    "CLERK_SECRET_KEY": "your-clerk-secret-key-here"
+    "CLERK_SECRET_KEY": "kODsdb72eZ8U0UDoyD7t9z91SDFUz2wy"
   }
 }
