@@ -1,26 +1,21 @@
 {
-  "name": "bomber-api",
+  "name": "gaurav-osint-tool",
   "version": "1.0.0",
-  "description": "Bomber API clone for educational purposes",
-  "main": "api/bomb.js",
+  "description": "OSINT Tool with Clerk Authentication",
+  "main": "index.js",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'No build process needed for serverless functions'",
-    "start": "vercel dev"
+    "build": "echo 'No build step required'",
+    "start": "vercel start"
   },
-  "keywords": [
-    "bomber-api",
-    "api-clone",
-    "educational",
-    "vercel",
-    "serverless"
-  ],
-  "author": "MR WEIRDOO",
-  "license": "MIT",
   "dependencies": {
-    "axios": "^1.6.7"
+    "@clerk/clerk-js": "^4.28.5"
   },
-  "engines": {
-    "node": ">=18.x"
-  }
+  "devDependencies": {
+    "@vercel/node": "^2.0.0",
+    "@vercel/static": "^1.0.0"
+  },
+  "keywords": ["osint", "clerk", "authentication"],
+  "author": "Gaurav",
+  "license": "MIT"
 }
