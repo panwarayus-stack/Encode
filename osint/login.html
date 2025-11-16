@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GAURAV OSINT TOOL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #F8FAFC; 
+        }
+        .loader { 
+            border-top-color: #1D4ED8; 
+        }
+        .clerk-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .clerk-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .clerk-provider-button {
+            border: 1px solid #d1d5db !important;
+            border-radius: 0.5rem !important;
+            padding: 0.75rem !important;
+            font-weight: 500 !important;
+            background: white !important;
+            color: #374151 !important;
+        }
+        .clerk-provider-button:hover {
+            background: #f9fafb !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="max-w-md w-full bg-white rounded-2xl card-shadow border-t-4 border-blue-600 overflow-hidden">
+        <div class="p-8">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+                    <span data-lucide="shield-check" class="w-8 h-8 text-blue-600"></span>
+                </div>
+                <h1 class="text-2xl font-extrabold text-gray-900">
+                    GAURAV OSINT TOOL
+                </h1>
+                <p class="text-gray-500 text-sm mt-2">Secure Authentication Required</p>
+            </div>
+            
+            <div id="clerk-auth-container" class="space-y-4">
+                <!-- Clerk authentication components will be rendered here -->
+                <div class="flex flex-col items-center justify-center p-8 bg-blue-50 rounded-lg">
+                    <div class="loader border-t-4 border-b-4 border-blue-600 rounded-full w-8 h-8 animate-spin"></div>
+                    <p class="mt-4 text-blue-700 font-medium text-sm">Loading authentication...</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="text-center">
+                    <p class="text-gray-500 text-xs">
+                        By signing in, you agree to our 
+                        <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and 
+                        <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // Initialize Clerk with your publishable key
+        const clerkPublishableKey = 'pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ';
+        
+        // Wait for Clerk to load
+        if (typeof window.Clerk !== 'undefined') {
+            initializeClerk();
+        } else {
+            window.addEventListener('clerk-loaded', initializeClerk);
+        }
+
+        function initializeClerk() {
+            const clerk = new Clerk(clerkPublishableKey);
+            
+            clerk.load().then(() => {
+                // Mount Clerk components
+                const authContainer = document.getElementById('clerk-auth-container');
+                
+                if (clerk.user) {
+                    // User is signed in, redirect to dashboard
+                    showSuccessMessage();
+                    setTimeout(() => {
+                        window.location.href = '/osint/dashboard';
+                    }, 1500);
+                } else {
+                    // User is not signed in, show sign-in/sign-up
+                    authContainer.innerHTML = `
+                        <div class="text-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-800">Welcome Back</h2>
+                            <p class="text-gray-500 text-sm mt-1">Sign in to access the OSINT dashboard</p>
+                        </div>
+                        <div id="sign-in" class="clerk-button"></div>
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">New to OSINT Tool?</span>
+                            </div>
+                        </div>
+                        <div id="sign-up" class="clerk-button"></div>
+                    `;
+                    
+                    // Mount Sign In component
+                    clerk.mountSignIn(document.getElementById('sign-in'), {
+                        appearance: {
+                            elements: {
+                                formButtonPrimary: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 clerk-button shadow-md",
+                                formFieldInput: "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 transition shadow-sm text-sm",
+                                formFieldLabel: "text-gray-700 font-medium text-sm mb-1",
+                                formFieldAction: "text-blue-600 hover:text-blue-800 text-sm",
+                                formFieldSuccessText: "text-green-600 text-sm",
+                                formFieldErrorText: "text-red-600 text-sm",
+                                headerTitle: "hidden",
+                                headerSubtitle: "hidden",
+                                socialButtonsBlockButton: "clerk-provider-button",
+                                socialButtonsBlockButtonText: "text-sm font-medium",
+                                socialButtonsBlockButtonArrow: "hidden",
+                                dividerLine: "bg-gray-300",
+                                dividerText: "text-gray-500 text-xs",
+                                form: "space-y-4",
+                                identityPreview: "bg-gray-50 p-3 rounded-lg border border-gray-200",
+                                identityPreviewText: "text-gray-700 text-sm",
+                                identityPreviewEditButton: "text-blue-600 hover:text-blue-800 text-sm",
+                                footer: "hidden",
+                                footerAction: "hidden",
+                                footerActionLink: "text-blue-600 hover:text-blue-800 text-sm",
+                                card: "shadow-none bg-transparent p-0"
+                            },
+                            variables: {
+                                colorPrimary: '#1D4ED8',
+                                colorDanger: '#DC2626',
+                                colorSuccess: '#059669'
+                            }
+                        },
+                        signInForceRedirectUrl: window.location.origin + '/osint/dashboard'
+                    });
+                    
+                    // Mount Sign Up component
+                    clerk.mountSignUp(document.getElementById('sign-up'), {
+                        appearance: {
+                            elements: {
+                                formButtonPrimary: "w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 clerk-button shadow-md",
+                                formFieldInput: "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 transition shadow-sm text-sm",
+                                formFieldLabel: "text-gray-700 font-medium text-sm mb-1",
+                                formFieldAction: "text-blue-600 hover:text-blue-800 text-sm",
+                                formFieldSuccessText: "text-green-600 text-sm",
+                                formFieldErrorText: "text-red-600 text-sm",
+                                headerTitle: "hidden",
+                                headerSubtitle: "hidden",
+                                socialButtonsBlockButton: "clerk-provider-button",
+                                socialButtonsBlockButtonText: "text-sm font-medium",
+                                socialButtonsBlockButtonArrow: "hidden",
+                                dividerLine: "bg-gray-300",
+                                dividerText: "text-gray-500 text-xs",
+                                form: "space-y-4",
+                                footer: "hidden",
+                                footerAction: "hidden",
+                                footerActionLink: "text-blue-600 hover:text-blue-800 text-sm",
+                                card: "shadow-none bg-transparent p-0"
+                            },
+                            variables: {
+                                colorPrimary: '#059669',
+                                colorDanger: '#DC2626',
+                                colorSuccess: '#059669'
+                            }
+                        },
+                        signUpForceRedirectUrl: window.location.origin + '/osint/dashboard'
+                    });
+                    
+                    // Listen for authentication state changes
+                    clerk.addListener(({ user }) => {
+                        if (user) {
+                            showSuccessMessage();
+                            setTimeout(() => {
+                                window.location.href = '/osint/dashboard';
+                            }, 1500);
+                        }
+                    });
+                }
+                
+                // Create icons
+                lucide.createIcons();
+            }).catch(err => {
+                console.error('Clerk initialization failed:', err);
+                document.getElementById('clerk-auth-container').innerHTML = `
+                    <div class="bg-red-50 p-6 rounded-lg shadow-inner text-center">
+                        <span data-lucide='alert-triangle' class='w-12 h-12 text-red-500 mx-auto mb-3'></span>
+                        <h3 class="text-red-700 font-bold text-lg mb-2">Authentication Error</h3>
+                        <p class="text-red-600 text-sm">Authentication service is currently unavailable.</p>
+                        <p class="text-red-500 text-xs mt-2">Please try again later or contact support.</p>
+                        <button onclick="window.location.reload()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                            Retry
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+            });
+        }
+
+        function showSuccessMessage() {
+            document.getElementById('clerk-auth-container').innerHTML = `
+                <div class="flex flex-col items-center justify-center p-8 bg-green-50 rounded-lg text-center">
+                    <span data-lucide='check-circle' class='w-12 h-12 text-green-500 mb-3'></span>
+                    <h3 class="text-green-700 font-bold text-lg">Authentication Successful!</h3>
+                    <p class="text-green-600 text-sm mt-1">Redirecting to dashboard...</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // Handle page refresh and back button
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
