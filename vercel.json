@@ -11,7 +11,15 @@
       "use": "@vercel/static"
     },
     {
-      "src": "index.html",
+      "src": "osint/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "osint/index2.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "osint/login.html",
       "use": "@vercel/static"
     }
   ],
@@ -33,8 +41,28 @@
       "dest": "/bomber/bomber.html"
     },
     {
+      "src": "/osint/login",
+      "dest": "/osint/login.html"
+    },
+    {
+      "src": "/osint/dashboard",
+      "dest": "/osint/index2.html"
+    },
+    {
+      "src": "/osint",
+      "dest": "/osint/login.html"
+    },
+    {
+      "src": "/",
+      "dest": "/osint/login.html"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/osint/login.html"
     }
-  ]
+  ],
+  "env": {
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ",
+    "CLERK_SECRET_KEY": "your-clerk-secret-key-here"
+  }
 }
