@@ -3,69 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - GAURAV OSINT TOOL</title>
+    <title>Secure Login - GAURAV OSINT TOOL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
         body { 
             font-family: 'Inter', sans-serif; 
-            background: #F8FAFC; 
+            background: #0f172a;
+            background-image: 
+                radial-gradient(at 47% 33%, hsl(215.32, 100%, 45%) 0, transparent 59%), 
+                radial-gradient(at 82% 65%, hsl(218.18, 100%, 35%) 0, transparent 55%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(45deg, #1d4ed8, #3b82f6, #60a5fa);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
         }
         .loader { 
-            border-top-color: #1D4ED8; 
+            border-top-color: #3b82f6; 
         }
-        .clerk-button {
-            transition: all 0.2s ease-in-out;
+        .btn-primary {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .clerk-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -12px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #1e40af, #2563eb);
         }
-        .card-shadow {
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-        .clerk-provider-button {
-            border: 1px solid #d1d5db !important;
-            border-radius: 0.5rem !important;
-            padding: 0.75rem !important;
-            font-weight: 500 !important;
-            background: white !important;
-            color: #374151 !important;
-        }
-        .clerk-provider-button:hover {
-            background: #f9fafb !important;
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-indigo-100">
-    <div class="max-w-md w-full bg-white rounded-2xl card-shadow border-t-4 border-blue-600 overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass-card glow-border rounded-2xl w-full max-w-md">
         <div class="p-8">
+            <!-- Header -->
             <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
-                    <span data-lucide="shield-check" class="w-8 h-8 text-blue-600"></span>
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 mb-4 shadow-lg">
+                    <span data-lucide="shield-check" class="w-10 h-10 text-white"></span>
                 </div>
-                <h1 class="text-2xl font-extrabold text-gray-900">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent mb-2">
                     GAURAV OSINT TOOL
                 </h1>
-                <p class="text-gray-500 text-sm mt-2">Secure Authentication Required</p>
-            </div>
-            
-            <div id="clerk-auth-container" class="space-y-4">
-                <!-- Clerk authentication components will be rendered here -->
-                <div class="flex flex-col items-center justify-center p-8 bg-blue-50 rounded-lg">
-                    <div class="loader border-t-4 border-b-4 border-blue-600 rounded-full w-8 h-8 animate-spin"></div>
-                    <p class="mt-4 text-blue-700 font-medium text-sm">Loading authentication...</p>
+                <p class="text-gray-300 text-sm font-medium">Secure Intelligence Platform</p>
+                <div class="flex items-center justify-center mt-3 space-x-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="text-green-400 text-xs font-semibold">SYSTEM SECURE</span>
                 </div>
             </div>
             
-            <div class="mt-8 pt-6 border-t border-gray-200">
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-gray-300 text-sm font-semibold mb-2">Email Address</label>
+                    <input type="email" id="email" required
+                        class="input-field w-full p-4 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                        placeholder="operator@agency.gov">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-300 text-sm font-semibold mb-2">Password</label>
+                    <input type="password" id="password" required
+                        class="input-field w-full p-4 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                        placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-primary w-full text-white font-bold py-4 px-6 rounded-xl">
+                    <span id="loginText">Access System</span>
+                    <div id="loginLoader" class="hidden items-center justify-center">
+                        <div class="loader border-t-2 border-b-2 border-white rounded-full w-5 h-5 animate-spin mr-2"></div>
+                        <span>Authenticating...</span>
+                    </div>
+                </button>
+            </form>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="hidden mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                <div class="flex items-center">
+                    <span data-lucide="alert-triangle" class="w-5 h-5 text-red-400 mr-2"></span>
+                    <span id="errorText" class="text-red-400 text-sm font-medium"></span>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="hidden mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+                <div class="flex items-center">
+                    <span data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-2"></span>
+                    <span id="successText" class="text-green-400 text-sm font-medium"></span>
+                </div>
+            </div>
+
+            <!-- Register Link -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-400 text-sm">
+                    Need access? 
+                    <a href="/register" class="text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                        Request Invitation
+                    </a>
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-white/10">
                 <div class="text-center">
-                    <p class="text-gray-500 text-xs">
-                        By signing in, you agree to our 
-                        <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and 
-                        <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
+                    <p class="text-gray-400 text-xs">
+                        Protected by Advanced Encryption • 
+                        <span class="text-blue-300">v2.4.1</span>
+                    </p>
+                    <p class="text-gray-500 text-xs mt-2">
+                        Authorized personnel only. All activities are monitored.
                     </p>
                 </div>
             </div>
@@ -73,160 +145,90 @@
     </div>
 
     <script>
-        // Initialize Clerk with your publishable key
-        const clerkPublishableKey = 'pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ';
-        
-        // Wait for Clerk to load
-        if (typeof window.Clerk !== 'undefined') {
-            initializeClerk();
-        } else {
-            window.addEventListener('clerk-loaded', initializeClerk);
-        }
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-        function initializeClerk() {
-            const clerk = new Clerk(clerkPublishableKey);
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            clerk.load().then(() => {
-                // Mount Clerk components
-                const authContainer = document.getElementById('clerk-auth-container');
-                
-                if (clerk.user) {
-                    // User is signed in, redirect to dashboard
-                    showSuccessMessage();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginText = document.getElementById('loginText');
+            const loginLoader = document.getElementById('loginLoader');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            // Show loading state
+            loginText.classList.add('hidden');
+            loginLoader.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store token in localStorage
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Show success message
+                    document.getElementById('successText').textContent = data.message;
+                    successMessage.classList.remove('hidden');
+                    
+                    // Redirect to dashboard
                     setTimeout(() => {
-                        window.location.href = '/osint/dashboard';
+                        window.location.href = '/dashboard';
                     }, 1500);
                 } else {
-                    // User is not signed in, show sign-in/sign-up
-                    authContainer.innerHTML = `
-                        <div class="text-center mb-6">
-                            <h2 class="text-xl font-bold text-gray-800">Welcome Back</h2>
-                            <p class="text-gray-500 text-sm mt-1">Sign in to access the OSINT dashboard</p>
-                        </div>
-                        <div id="sign-in" class="clerk-button"></div>
-                        <div class="relative my-6">
-                            <div class="absolute inset-0 flex items-center">
-                                <div class="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div class="relative flex justify-center text-sm">
-                                <span class="px-2 bg-white text-gray-500">New to OSINT Tool?</span>
-                            </div>
-                        </div>
-                        <div id="sign-up" class="clerk-button"></div>
-                    `;
-                    
-                    // Mount Sign In component
-                    clerk.mountSignIn(document.getElementById('sign-in'), {
-                        appearance: {
-                            elements: {
-                                formButtonPrimary: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 clerk-button shadow-md",
-                                formFieldInput: "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 transition shadow-sm text-sm",
-                                formFieldLabel: "text-gray-700 font-medium text-sm mb-1",
-                                formFieldAction: "text-blue-600 hover:text-blue-800 text-sm",
-                                formFieldSuccessText: "text-green-600 text-sm",
-                                formFieldErrorText: "text-red-600 text-sm",
-                                headerTitle: "hidden",
-                                headerSubtitle: "hidden",
-                                socialButtonsBlockButton: "clerk-provider-button",
-                                socialButtonsBlockButtonText: "text-sm font-medium",
-                                socialButtonsBlockButtonArrow: "hidden",
-                                dividerLine: "bg-gray-300",
-                                dividerText: "text-gray-500 text-xs",
-                                form: "space-y-4",
-                                identityPreview: "bg-gray-50 p-3 rounded-lg border border-gray-200",
-                                identityPreviewText: "text-gray-700 text-sm",
-                                identityPreviewEditButton: "text-blue-600 hover:text-blue-800 text-sm",
-                                footer: "hidden",
-                                footerAction: "hidden",
-                                footerActionLink: "text-blue-600 hover:text-blue-800 text-sm",
-                                card: "shadow-none bg-transparent p-0"
-                            },
-                            variables: {
-                                colorPrimary: '#1D4ED8',
-                                colorDanger: '#DC2626',
-                                colorSuccess: '#059669'
-                            }
-                        },
-                        signInForceRedirectUrl: window.location.origin + '/osint/dashboard'
-                    });
-                    
-                    // Mount Sign Up component
-                    clerk.mountSignUp(document.getElementById('sign-up'), {
-                        appearance: {
-                            elements: {
-                                formButtonPrimary: "w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 clerk-button shadow-md",
-                                formFieldInput: "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 transition shadow-sm text-sm",
-                                formFieldLabel: "text-gray-700 font-medium text-sm mb-1",
-                                formFieldAction: "text-blue-600 hover:text-blue-800 text-sm",
-                                formFieldSuccessText: "text-green-600 text-sm",
-                                formFieldErrorText: "text-red-600 text-sm",
-                                headerTitle: "hidden",
-                                headerSubtitle: "hidden",
-                                socialButtonsBlockButton: "clerk-provider-button",
-                                socialButtonsBlockButtonText: "text-sm font-medium",
-                                socialButtonsBlockButtonArrow: "hidden",
-                                dividerLine: "bg-gray-300",
-                                dividerText: "text-gray-500 text-xs",
-                                form: "space-y-4",
-                                footer: "hidden",
-                                footerAction: "hidden",
-                                footerActionLink: "text-blue-600 hover:text-blue-800 text-sm",
-                                card: "shadow-none bg-transparent p-0"
-                            },
-                            variables: {
-                                colorPrimary: '#059669',
-                                colorDanger: '#DC2626',
-                                colorSuccess: '#059669'
-                            }
-                        },
-                        signUpForceRedirectUrl: window.location.origin + '/osint/dashboard'
-                    });
-                    
-                    // Listen for authentication state changes
-                    clerk.addListener(({ user }) => {
-                        if (user) {
-                            showSuccessMessage();
-                            setTimeout(() => {
-                                window.location.href = '/osint/dashboard';
-                            }, 1500);
-                        }
-                    });
+                    throw new Error(data.error);
                 }
-                
-                // Create icons
-                lucide.createIcons();
-            }).catch(err => {
-                console.error('Clerk initialization failed:', err);
-                document.getElementById('clerk-auth-container').innerHTML = `
-                    <div class="bg-red-50 p-6 rounded-lg shadow-inner text-center">
-                        <span data-lucide='alert-triangle' class='w-12 h-12 text-red-500 mx-auto mb-3'></span>
-                        <h3 class="text-red-700 font-bold text-lg mb-2">Authentication Error</h3>
-                        <p class="text-red-600 text-sm">Authentication service is currently unavailable.</p>
-                        <p class="text-red-500 text-xs mt-2">Please try again later or contact support.</p>
-                        <button onclick="window.location.reload()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition">
-                            Retry
-                        </button>
-                    </div>
-                `;
-                lucide.createIcons();
-            });
-        }
 
-        function showSuccessMessage() {
-            document.getElementById('clerk-auth-container').innerHTML = `
-                <div class="flex flex-col items-center justify-center p-8 bg-green-50 rounded-lg text-center">
-                    <span data-lucide='check-circle' class='w-12 h-12 text-green-500 mb-3'></span>
-                    <h3 class="text-green-700 font-bold text-lg">Authentication Successful!</h3>
-                    <p class="text-green-600 text-sm mt-1">Redirecting to dashboard...</p>
-                </div>
-            `;
-            lucide.createIcons();
-        }
+            } catch (error) {
+                document.getElementById('errorText').textContent = error.message;
+                errorMessage.classList.remove('hidden');
+            } finally {
+                // Reset loading state
+                loginText.classList.remove('hidden');
+                loginLoader.classList.add('hidden');
+            }
+        });
 
-        // Handle page refresh and back button
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                window.location.reload();
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Verify token
+                fetch('/api/auth/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ token })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.valid) {
+                        window.location.href = '/dashboard';
+                    } else {
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('user');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                });
             }
         });
     </script>
