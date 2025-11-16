@@ -1,7 +1,19 @@
 {
   "version": 2,
-  "name": "darktrace-network",
+  "name": "gaurav-osint-tool",
   "builds": [
+    {
+      "src": "osint/api/auth/register.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "osint/api/auth/login.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "osint/api/auth/verify.js",
+      "use": "@vercel/node"
+    },
     {
       "src": "bomber/bomber.js",
       "use": "@vercel/node"
@@ -11,19 +23,31 @@
       "use": "@vercel/static"
     },
     {
-      "src": "osint/index.html",
+      "src": "osint/login.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "osint/register.html",
       "use": "@vercel/static"
     },
     {
       "src": "osint/index2.html",
       "use": "@vercel/static"
-    },
-    {
-      "src": "osint/login.html",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/api/auth/register",
+      "dest": "/osint/api/auth/register.js"
+    },
+    {
+      "src": "/api/auth/login",
+      "dest": "/osint/api/auth/login.js"
+    },
+    {
+      "src": "/api/auth/verify",
+      "dest": "/osint/api/auth/verify.js"
+    },
     {
       "src": "/api",
       "dest": "/bomber/bomber.js"
@@ -41,16 +65,16 @@
       "dest": "/bomber/bomber.html"
     },
     {
-      "src": "/osint/login",
-      "dest": "/osint/login.html"
-    },
-    {
-      "src": "/osint/dashboard",
+      "src": "/dashboard",
       "dest": "/osint/index2.html"
     },
     {
-      "src": "/osint",
+      "src": "/login",
       "dest": "/osint/login.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/osint/register.html"
     },
     {
       "src": "/",
@@ -62,7 +86,7 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ",
-    "CLERK_SECRET_KEY": "kODsdb72eZ8U0UDoyD7t9z91SDFUz2wy"
+    "MONGODB_URI": "your-mongodb-connection-string",
+    "JWT_SECRET": "your-jwt-secret-key-here"
   }
 }
