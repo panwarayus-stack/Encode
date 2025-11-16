@@ -3,247 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkTrace Network</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Secure Login - GAURAV OSINT TOOL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #0f172a; 
+            background-image: 
+                radial-gradient(at 47% 33%, hsl(215.32, 100%, 45%) 0, transparent 59%), 
+                radial-gradient(at 82% 65%, hsl(218.18, 100%, 35%) 0, transparent 55%);
         }
-
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --instagram: #E1306C;
-            --telegram: #0088cc;
-            --dark: #0f172a;
-            --light: #f8fafc;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .profile-card {
+        .glass-card {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-
-        .profile-img {
-            width: 180px;
-            height: 180px;
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(45deg, #1d4ed8, #3b82f6, #60a5fa);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+        .loader { 
+            border-top-color: #3b82f6; 
+        }
+        .clerk-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .clerk-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -12px rgba(59, 130, 246, 0.3);
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
             border-radius: 50%;
-            margin: 0 auto 2rem;
-            overflow: hidden;
-            border: 4px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
-        }
-
-        .profile-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .profile-title {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            padding: 2rem;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            min-width: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .social-link.instagram {
-            background: linear-gradient(135deg, rgba(225, 48, 108, 0.1) 0%, rgba(253, 29, 29, 0.1) 100%);
-            border: 1px solid rgba(225, 48, 108, 0.3);
-        }
-
-        .social-link.telegram {
-            background: linear-gradient(135deg, rgba(0, 136, 204, 0.1) 0%, rgba(0, 102, 204, 0.1) 100%);
-            border: 1px solid rgba(0, 136, 204, 0.3);
-        }
-
-        .social-link:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .social-link.instagram:hover {
-            background: linear-gradient(135deg, rgba(225, 48, 108, 0.2) 0%, rgba(253, 29, 29, 0.2) 100%);
-            box-shadow: 0 15px 30px rgba(225, 48, 108, 0.3);
-        }
-
-        .social-link.telegram:hover {
-            background: linear-gradient(135deg, rgba(0, 136, 204, 0.2) 0%, rgba(0, 102, 204, 0.2) 100%);
-            box-shadow: 0 15px 30px rgba(0, 136, 204, 0.3);
-        }
-
-        .social-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .social-link.instagram .social-icon {
-            color: var(--instagram);
-        }
-
-        .social-link.telegram .social-icon {
-            color: var(--telegram);
-        }
-
-        .social-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .social-handle {
-            color: #94a3b8;
-            font-size: 1rem;
-        }
-
-        .footer {
-            margin-top: 2rem;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .profile-card, .social-link {
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .social-link.telegram {
-            animation-delay: 0.2s;
-            opacity: 0;
-        }
-
-        .social-link.instagram {
-            animation-delay: 0.4s;
-            opacity: 0;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .social-links {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .social-link {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .profile-name {
-                font-size: 2rem;
-            }
-            
-            .profile-img {
-                width: 150px;
-                height: 150px;
-            }
-            
-            body {
-                padding: 1rem;
-            }
-            
-            .profile-card {
-                padding: 2rem 1.5rem;
-            }
+            pointer-events: none;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="profile-card">
-            <div class="profile-img">
-                <img src="https://github.com/panwarayus-stack/Encode/blob/main/mypic.jpg?raw=true" alt="DarkTrace Network">
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Animated Background Particles -->
+    <div id="particles-container" class="absolute inset-0 pointer-events-none"></div>
+    
+    <!-- Main Login Card -->
+    <div class="glass-card glow-border rounded-2xl w-full max-w-md relative z-10">
+        <div class="p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 mb-4 shadow-lg">
+                    <span data-lucide="shield-check" class="w-10 h-10 text-white"></span>
+                </div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent mb-2">
+                    GAURAV OSINT TOOL
+                </h1>
+                <p class="text-gray-300 text-sm font-medium">Secure Intelligence Platform</p>
+                <div class="flex items-center justify-center mt-3 space-x-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="text-green-400 text-xs font-semibold">SYSTEM SECURE</span>
+                </div>
             </div>
-            <h1 class="profile-name">DarkTrace Network</h1>
-            <p class="profile-title">Cybersecurity & Technology Solutions</p>
             
-            <div class="social-links">
-                <a href="https://instagram.com/tg_cheats" class="social-link instagram" target="_blank">
-                    <i class="fab fa-instagram social-icon"></i>
-                    <div class="social-name">Instagram</div>
-                    <div class="social-handle">@tg_cheats</div>
-                </a>
-                
-                <a href="https://t.me/DarkTrace_Networkz" class="social-link telegram" target="_blank">
-                    <i class="fab fa-telegram social-icon"></i>
-                    <div class="social-name">Telegram</div>
-                    <div class="social-handle">DarkTrace Network</div>
-                </a>
+            <!-- Clerk Auth Container -->
+            <div id="clerk-auth-container" class="space-y-4">
+                <!-- Loading State -->
+                <div class="flex flex-col items-center justify-center p-8 bg-white/5 rounded-xl border border-white/10">
+                    <div class="loader border-t-4 border-b-4 border-blue-500 rounded-full w-10 h-10 animate-spin mb-4"></div>
+                    <p class="text-blue-300 font-medium text-sm">Initializing Security Protocol...</p>
+                    <p class="text-gray-400 text-xs mt-2">Loading authentication systems</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="footer">
-            &copy; 2024 DarkTrace Network. Connect with us on social media.
+            
+            <!-- Footer -->
+            <div class="mt-8 pt-6 border-t border-white/10">
+                <div class="text-center">
+                    <p class="text-gray-400 text-xs">
+                        Protected by Advanced Encryption • 
+                        <span class="text-blue-300">v2.4.1</span>
+                    </p>
+                    <p class="text-gray-500 text-xs mt-2">
+                        By accessing this system, you agree to our 
+                        <a href="#" class="text-blue-400 hover:text-blue-300 transition-colors">Security Policy</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Simple animation on load
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.style.opacity = 0;
-            document.body.style.transition = 'opacity 1s ease';
+        // Clerk Configuration
+        const clerkPublishableKey = 'pk_test_c3RpcnJpbmctcmFiYml0LTgwLmNsZXJrLmFjY291bnRzLmRldiQ';
+        
+        // Create animated particles
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 200 + 50;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 30 + 20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}vw`;
+                particle.style.top = `${y}vh`;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                container.appendChild(particle);
+            }
             
-            setTimeout(function() {
-                document.body.style.opacity = 1;
-            }, 100);
+            // Add floating animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+                    25% { transform: translate(20px, -20px) rotate(90deg); }
+                    50% { transform: translate(0, -40px) rotate(180deg); }
+                    75% { transform: translate(-20px, -20px) rotate(270deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Initialize Clerk
+        function initializeClerk() {
+            if (typeof window.Clerk === 'undefined') {
+                window.addEventListener('clerk-loaded', initializeClerk);
+                return;
+            }
+
+            const clerk = new Clerk(clerkPublishableKey);
+            
+            clerk.load().then(() => {
+                const authContainer = document.getElementById('clerk-auth-container');
+                
+                if (clerk.user) {
+                    // User already signed in
+                    showSuccessState();
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                } else {
+                    // Show auth options
+                    renderAuthUI(clerk, authContainer);
+                }
+                
+                lucide.createIcons();
+            }).catch(error => {
+                console.error('Clerk initialization failed:', error);
+                showErrorState();
+            });
+        }
+
+        function renderAuthUI(clerk, container) {
+            container.innerHTML = `
+                <div class="text-center mb-6">
+                    <h2 class="text-xl font-bold text-white mb-2">Access Intelligence Dashboard</h2>
+                    <p class="text-gray-300 text-sm">Authenticate to continue</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div id="sign-in" class="clerk-button"></div>
+                    
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-white/20"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-3 bg-gray-900 text-gray-400 font-medium">New Operator</span>
+                        </div>
+                    </div>
+                    
+                    <div id="sign-up" class="clerk-button"></div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                    <div class="flex items-start">
+                        <span data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400 mr-2 mt-0.5 flex-shrink-0"></span>
+                        <p class="text-yellow-300 text-xs font-medium">
+                            Authorized personnel only. All activities are monitored and logged.
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            // Mount Sign In
+            clerk.mountSignIn(document.getElementById('sign-in'), {
+                appearance: {
+                    elements: {
+                        formButtonPrimary: "w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 clerk-button shadow-2xl",
+                        formFieldInput: "w-full p-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200",
+                        formFieldLabel: "text-gray-300 font-semibold text-sm mb-2 uppercase tracking-wide",
+                        formFieldAction: "text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors",
+                        formFieldSuccessText: "text-green-400 text-sm font-medium",
+                        formFieldErrorText: "text-red-400 text-sm font-medium",
+                        headerTitle: "hidden",
+                        headerSubtitle: "hidden",
+                        socialButtonsBlockButton: "w-full bg-white/5 border border-white/10 text-white font-semibold py-3 px-4 rounded-xl hover:bg-white/10 transition-all duration-200 clerk-button",
+                        socialButtonsBlockButtonText: "text-sm font-medium",
+                        socialButtonsBlockButtonArrow: "hidden",
+                        dividerLine: "bg-white/20",
+                        dividerText: "text-gray-400 text-xs font-medium",
+                        form: "space-y-4",
+                        identityPreview: "bg-white/5 border border-white/10 p-4 rounded-xl",
+                        identityPreviewText: "text-white text-sm",
+                        identityPreviewEditButton: "text-blue-400 hover:text-blue-300 text-sm font-medium",
+                        footer: "hidden",
+                        footerAction: "hidden",
+                        footerActionLink: "text-blue-400 hover:text-blue-300 text-sm font-medium",
+                        card: "shadow-none bg-transparent p-0 space-y-6"
+                    },
+                    variables: {
+                        colorPrimary: '#3b82f6',
+                        colorDanger: '#ef4444',
+                        colorSuccess: '#10b981',
+                        borderRadius: '0.75rem'
+                    }
+                },
+                signInForceRedirectUrl: window.location.origin + '/dashboard'
+            });
+
+            // Mount Sign Up
+            clerk.mountSignUp(document.getElementById('sign-up'), {
+                appearance: {
+                    elements: {
+                        formButtonPrimary: "w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 clerk-button shadow-2xl",
+                        formFieldInput: "w-full p-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:bg-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200",
+                        formFieldLabel: "text-gray-300 font-semibold text-sm mb-2 uppercase tracking-wide",
+                        formFieldAction: "text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors",
+                        formFieldSuccessText: "text-green-400 text-sm font-medium",
+                        formFieldErrorText: "text-red-400 text-sm font-medium",
+                        headerTitle: "hidden",
+                        headerSubtitle: "hidden",
+                        socialButtonsBlockButton: "w-full bg-white/5 border border-white/10 text-white font-semibold py-3 px-4 rounded-xl hover:bg-white/10 transition-all duration-200 clerk-button",
+                        socialButtonsBlockButtonText: "text-sm font-medium",
+                        socialButtonsBlockButtonArrow: "hidden",
+                        dividerLine: "bg-white/20",
+                        dividerText: "text-gray-400 text-xs font-medium",
+                        form: "space-y-4",
+                        footer: "hidden",
+                        footerAction: "hidden",
+                        footerActionLink: "text-blue-400 hover:text-blue-300 text-sm font-medium",
+                        card: "shadow-none bg-transparent p-0 space-y-6"
+                    },
+                    variables: {
+                        colorPrimary: '#10b981',
+                        colorDanger: '#ef4444',
+                        colorSuccess: '#10b981',
+                        borderRadius: '0.75rem'
+                    }
+                },
+                signUpForceRedirectUrl: window.location.origin + '/dashboard'
+            });
+
+            // Auth state listener
+            clerk.addListener(({ user }) => {
+                if (user) {
+                    showSuccessState();
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                }
+            });
+        }
+
+        function showSuccessState() {
+            document.getElementById('clerk-auth-container').innerHTML = `
+                <div class="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl text-center">
+                    <span data-lucide='check-circle' class='w-16 h-16 text-green-400 mb-4'></span>
+                    <h3 class="text-green-400 font-bold text-xl mb-2">Access Granted</h3>
+                    <p class="text-green-300 text-sm">Authentication successful</p>
+                    <div class="mt-4 w-full bg-white/10 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full animate-pulse"></div>
+                    </div>
+                    <p class="text-gray-400 text-xs mt-4">Redirecting to dashboard...</p>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function showErrorState() {
+            document.getElementById('clerk-auth-container').innerHTML = `
+                <div class="bg-red-500/10 border border-red-500/20 p-6 rounded-xl text-center">
+                    <span data-lucide='alert-octagon' class='w-12 h-12 text-red-400 mx-auto mb-3'></span>
+                    <h3 class="text-red-400 font-bold text-lg mb-2">Security System Offline</h3>
+                    <p class="text-red-300 text-sm mb-4">Authentication service unavailable</p>
+                    <button onclick="window.location.reload()" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 clerk-button">
+                        <span data-lucide="refresh-ccw" class="w-4 h-4 mr-2"></span>
+                        Retry Connection
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initializeClerk();
+        });
+
+        // Handle page refresh
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
         });
     </script>
 </body>
